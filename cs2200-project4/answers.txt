@@ -1,0 +1,52 @@
+CS 2200 Spring 2021
+Project 4
+
+Name: Meredith Rush 
+GT Username: mrush30
+
+Problem 1C (FCFS Scheduler)
+----------
+
+There is not a linear relationship between the number of CPUs and the total execution time when running FCFS with 1, 2, and 4 CPUs. There is 
+a large difference between the total execution time for 1 CPU compared to 2 or 4 CPUs, but there is not a large difference in execution time between
+2 and 4 CPUs. This is due to the fact that the processes get caught up in the waiting state in the I/O queue. Although the number of CPUs is 
+increasing, which can decrease some runtime, there is only so much time that can be decreased when running the processes if there is only one 
+I/O queue. In this case, there is not a large difference in execution time between the 2 and 4 CPUs because the processes get caught up in the
+I/O queue, leading to some CPUs being idle for long periods of time when there are 4. Having idle CPUs leads to a waste of time, causing 4 CPUs to 
+not have a shorter total execution time than 2 CPUs. 
+
+Problem 2B (Round-Robin)
+----------
+Timeslice:          Total waiting time:
+200ms               279.2s
+400ms               291.7s
+600ms               302.3s
+800ms               317.1s
+
+
+In the Round-Robin scheduler algorithm, as the timeslice length increases, the total waiting time increases as well. Since the timeslices
+are longer, shorter algorithms have to wait longer to complete their CPU burst, causing the total waiting time to increase as the timeslice
+increases. In real OS, the shortest timeslice possible is not the most efficient choice because it longer processes would have to wait longer
+in the ready queue since they would not be able to finish their CPU burst in the first timeslice. Once going through the first timeslice, the 
+process would have to wait for every other process ahead of it run on the CPU before it is able to run again on the CPU. If the timeslices are
+longer, then the processes are less likely to have to wait in the ready queue for as long. The timeslices should not be too long because that 
+would cause shorter processes to hold the CPU for longer than they actually need it. 
+
+Problem 3B (Preemptive Priority)
+----------
+
+Priority schedulers can mitigate starvation by having a variable that keeps track of how long each process has been waiting in the ready queue. 
+Once the process has been in the ready queue for a certain period of time, the process could be moved to the beginning of the ready queue and
+be processed next on the CPU. Another way to mitigate starvation would be to keep track of the time, but everytime a certain amount of time passes
+the process's priority could be increased by a certain amount. This would cause the process to have a better chance of being chosen to run on 
+the CPU. 
+
+Problem 4 (The Priority Inversion Problem)
+---------
+
+To prevent processes dependent on each other from causing each other to become starved would be to add a function that allows the user to override
+a process's priority when adding the process to the ready queue. In wake_up, if a process has a lower priority, but a higher priority process is dependent
+on that process, then the user would be able to pass in an unsigned integer that is the higher process's priority. Then, when the lower process priority
+is added to the ready queue through enqueue, the higher process's priority will also be a parameter that is passed to enqueue. In enqueue, the lower 
+process is added to the ready queue with the priority of the higher process, preventing the process from starvation due to a lower priority. If there is
+no need to override a process's priority, then NULL can be passed as the parameters and would lead to a normal execution in the program. 
